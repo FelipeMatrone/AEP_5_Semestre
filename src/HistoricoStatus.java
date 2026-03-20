@@ -6,7 +6,7 @@ public class HistoricoStatus {
     private LocalDateTime data;
     private String descricao;
 
-public HistoricoStatus( Status status, String descricao) {
+public HistoricoStatus( Status status, String descricao ) {
     this.status = status;
     this.data = LocalDateTime.now();
     this.descricao = descricao;
@@ -16,7 +16,7 @@ public HistoricoStatus( Status status, String descricao) {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus( Status status) {
         this.status = status;
     }
 
