@@ -14,7 +14,7 @@ public class ServicosUsuario {
         }
 
         usuarios.add( usuario );
-        System.out.println( "Usuário salvo na memória." );
+        System.out.println( "Usuário salvo." );
     }
 
     public Usuario login( String cpf ) {

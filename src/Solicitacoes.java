@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Solicitacoes {
 
-    private int contador = 1;
+    private static int contador = 1;
     private String protocolo;
     private Usuario usuario;
     private String estado;
@@ -20,7 +20,7 @@ public class Solicitacoes {
 
     public Solicitacoes( Usuario usuario, String estado, String cidade, String descricao, String categoria, boolean riscoVida ) {
 
-        this.protocolo = String.format( "%06d", contador++ );
+        this.protocolo = estado.toUpperCase() + String.format("%06d", contador++);
         this.usuario   = usuario;
         this.estado    = estado;
         this.cidade    = cidade;

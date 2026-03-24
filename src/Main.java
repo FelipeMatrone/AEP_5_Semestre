@@ -1,25 +1,149 @@
+import java.util.Scanner;
+
 public class Main {
+
+    static Scanner sc = new Scanner(System.in);
+    static ServicosSolicitacoes servico = new ServicosSolicitacoes();
+    static ServicosUsuario servicoUsuarios = new ServicosUsuario();
+
     public static void main(String[] args) {
 
-        Usuario usuario01 = new Usuario("Felipe M.", "felipematrone@gmail.com", "44991024053", "11553125353", false );
+        while (true) {
+            menuInicial();
+        }
+    }
 
-        System.out.println("------ TESTE USUARIO REGISTRADO ------");
-        System.out.println("Nome: " + usuario01.getNome());
-        System.out.println("Email: " + usuario01.getEmail());
-        System.out.println("Telefone: " + usuario01.getTelefone());
-        System.out.println("CPF: " + usuario01.getCpf());
-        System.out.println("Registrado: " + usuario01.getRegistrado());
+    public static void menuInicial() {
 
-        Solicitacoes solicitacao = new Solicitacoes( usuario01, "PR", "Maringá", "Buraco grande na rua", "Infraestrutura", true );
+        System.out.println("\n===== SISTEMA =====");
+        System.out.println("1) - Login");
+        System.out.println("2) - Registrar");
+        System.out.println("3) - Entrar sem cadastro");
+        System.out.println("4) - Sair");
 
-        System.out.println("\n------ TESTE SOLICITAÇÃO ------");
-        System.out.println("Protocolo: " + solicitacao.getProtocolo());
-        System.out.println("Estado: " + solicitacao.getEstado());
-        System.out.println("Cidade: " + solicitacao.getCidade());
-        System.out.println("Status atual: " + solicitacao.getStatusAtual());
-        System.out.println("Data abertura: " + solicitacao.getDataAbertura());
-        System.out.println("Risco de vida: " + solicitacao.getRiscoVida());
+        int op = Integer.parseInt(sc.nextLine());
 
+        switch (op) {
+            case 1:
+                realizarLogin();
+                break;
+            case 2:
+                registrarUsuario();
+                break;
+            case 3:
+                entrarSemCadastro();
+                break;
+            case 4:
+                System.exit(0);
+                break;
+        }
+    }
 
+    public static void realizarLogin() {
+
+        System.out.print("CPF: ");
+        String cpf = sc.nextLine().trim();
+
+        Usuario usuario = servicoUsuarios.login(cpf);
+
+        if (usuario != null) {
+            System.out.println("Login realizado!");
+            menuUsuario(usuario);
+        } else {
+            System.out.println("Usuário não encontrado.");
+        }
+    }
+
+    public static void registrarUsuario() {
+
+        System.out.print("Nome: ");
+        String nome = sc.nextLine();
+
+        System.out.print("Email: ");
+        String email = sc.nextLine();
+
+        System.out.print("Telefone: ");
+        String tel = sc.nextLine();
+
+        System.out.print("CPF: ");
+        String cpf = sc.nextLine().trim();
+
+        Usuario novo = new Usuario(nome, email, tel, cpf);
+        servicoUsuarios.registrar(novo);
+
+        System.out.println("Registrado com sucesso!");
+    }
+
+    public static void entrarSemCadastro() {
+
+        System.out.print("CPF: ");
+        String cpf = sc.nextLine().trim();
+
+        Usuario usuario = new Usuario(cpf);
+
+        menuUsuario(usuario);
+    }
+
+    public static void menuUsuario(Usuario usuario) {
+
+        while (true) {
+
+            System.out.println("\n===== MENU =====");
+            System.out.println("1) - Novo chamado");
+            System.out.println("2) - Meus chamados");
+            System.out.println("3) - Ver fila");
+            System.out.println("4) - Quantidade por estado");
+            System.out.println("5) - Sair");
+
+            int op = Integer.parseInt(sc.nextLine());
+
+            switch (op) {
+                case 1:
+                    criarChamado(usuario);
+                    break;
+                case 2:
+                    servico.listarPorUsuario(usuario);
+                    break;
+                case 3:
+                    servico.mostrarFila();
+                    break;
+                case 4:
+                    servico.quantidadePorEstado();
+                    break;
+                case 5:
+                    return;
+            }
+        }
+    }
+
+    public static void criarChamado(Usuario usuario) {
+
+        System.out.print("Estado (sigla): ");
+        String estado = sc.nextLine();
+
+        System.out.print("Cidade: ");
+        String cidade = sc.nextLine();
+
+        System.out.print("Descrição: ");
+        String descricao = sc.nextLine();
+
+        System.out.print("Categoria: ");
+        String categoria = sc.nextLine();
+
+        System.out.print("Risco de vida (sim/nao): ");
+        boolean risco = Boolean.parseBoolean(sc.nextLine());
+
+        Solicitacoes s = new Solicitacoes(
+                usuario,
+                estado,
+                cidade,
+                descricao,
+                categoria,
+                risco
+        );
+
+        servico.criarSolicitacao(s);
+
+        System.out.println("Chamado criado! Protocolo: " + s.getProtocolo());
     }
 }
