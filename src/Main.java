@@ -21,7 +21,13 @@ public class Main {
         System.out.println("3) - Entrar sem cadastro");
         System.out.println("4) - Sair");
 
-        int op = Integer.parseInt(sc.nextLine());
+        int op;
+        try {
+            op = Integer.parseInt(sc.nextLine());
+        } catch (Exception e) {
+            System.out.println("Opção inválida!");
+            return;
+        }
 
         switch (op) {
             case 1:
@@ -48,7 +54,13 @@ public class Main {
 
         if (usuario != null) {
             System.out.println("Login realizado!");
-            menuUsuario(usuario);
+
+            if (usuario.getTipo() == TipoUsuario.ANALISTA) {
+                MenuAnalista.menu(usuario, servico, sc);
+            } else {
+                menuUsuario(usuario);
+            }
+
         } else {
             System.out.println("Usuário não encontrado.");
         }
@@ -68,8 +80,13 @@ public class Main {
         System.out.print("CPF: ");
         String cpf = sc.nextLine().trim();
 
+        System.out.println("Tipo (1 - Cidadão | 2 - Analista): ");
+        int tipoOp = Integer.parseInt(sc.nextLine());
+        TipoUsuario tipo = (tipoOp == 2) ? TipoUsuario.ANALISTA : TipoUsuario.CIDADAO;
+
         Usuario novo = new Usuario(nome, email, tel, cpf);
         servicoUsuarios.registrar(novo);
+        novo.setTipo(tipo);
 
         System.out.println("Registrado com sucesso!");
     }
@@ -80,6 +97,7 @@ public class Main {
         String cpf = sc.nextLine().trim();
 
         Usuario usuario = new Usuario(cpf);
+        usuario.setTipo(TipoUsuario.CIDADAO);
 
         menuUsuario(usuario);
     }
@@ -95,23 +113,36 @@ public class Main {
             System.out.println("4) - Quantidade por estado");
             System.out.println("5) - Sair");
 
-            int op = Integer.parseInt(sc.nextLine());
+            int op;
+            try {
+                op = Integer.parseInt(sc.nextLine());
+            } catch (Exception e) {
+                System.out.println("Opção inválida!");
+                continue;
+            }
 
             switch (op) {
                 case 1:
                     criarChamado(usuario);
                     break;
+
                 case 2:
                     servico.listarPorUsuario(usuario);
                     break;
+
                 case 3:
                     servico.mostrarFila();
                     break;
+
                 case 4:
                     servico.quantidadePorEstado();
                     break;
+
                 case 5:
                     return;
+
+                default:
+                    System.out.println("Opção inválida!");
             }
         }
     }
@@ -131,7 +162,8 @@ public class Main {
         String categoria = sc.nextLine();
 
         System.out.print("Risco de vida (sim/nao): ");
-        boolean risco = Boolean.parseBoolean(sc.nextLine());
+        String riscoStr = sc.nextLine().toLowerCase();
+        boolean risco = riscoStr.equals("sim");
 
         Solicitacoes s = new Solicitacoes(
                 usuario,

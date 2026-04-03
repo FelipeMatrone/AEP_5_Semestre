@@ -47,6 +47,12 @@ public class ServicosSolicitacoes {
     }
 
     public void atualizarStatus( String protocolo, Status novoStatus, String comentario ) {
+
+        if (comentario == null || comentario.isEmpty()) {
+            System.out.println("Comentário obrigatório!");
+            return;
+        }
+
         Solicitacoes soli = buscarPorProtocolo( protocolo );
 
         if ( soli != null ) {
@@ -152,5 +158,39 @@ public class ServicosSolicitacoes {
         System.out.println( "Status: " + soli.getStatusAtual() );
         System.out.println( "Data: " + soli.getDataAbertura() );
         System.out.println( "Aberto por: " + soli.getUsuario().getNome() );
+    }
+
+    public List<Solicitacoes> getSolicitacoes() {
+        return solicitacoes;
+    }
+
+    public void listarPorPrioridade() {
+
+        if (solicitacoes.isEmpty()) {
+            System.out.println("Nenhuma solicitação cadastrada.");
+            return;
+        }
+
+        for (Solicitacoes soli : solicitacoes) {
+            if (soli.getRiscoVida()) {
+                exibirDetalhado(soli);
+            }
+        }
+
+        for (Solicitacoes soli : solicitacoes) {
+            if (!soli.getRiscoVida()) {
+                exibirDetalhado(soli);
+            }
+        }
+    }
+
+    private void exibirDetalhado(Solicitacoes soli) {
+        System.out.println("----------------------------");
+        System.out.println("Protocolo: " + soli.getProtocolo());
+        System.out.println("Nome: " + soli.getUsuario().getNome());
+        System.out.println("Prioridade: " + (soli.getRiscoVida() ? "ALTA" : "NORMAL"));
+        System.out.println("Risco de vida: " + (soli.getRiscoVida() ? "SIM" : "NÃO"));
+        System.out.println("Descrição: " + soli.getDescricao());
+        System.out.println("Data: " + soli.getDataAbertura());
     }
 }
