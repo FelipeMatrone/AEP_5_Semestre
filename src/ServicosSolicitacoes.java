@@ -75,7 +75,6 @@ public class ServicosSolicitacoes {
                 System.out.println( "Nome: " + soli.getUsuario().getNome() );
                 System.out.println( "Estado: " + soli.getEstado() );
                 System.out.println( "Cidade: " + soli.getCidade() );
-                System.out.println( "Categoria: " + soli.getCategoria() );
                 System.out.println( "Descrição: " + soli.getDescricao() );
                 System.out.println( "Data: " + soli.getDataAbertura() );
                 System.out.println( "Status: " + soli.getStatusAtual() );

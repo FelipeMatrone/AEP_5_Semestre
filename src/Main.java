@@ -80,7 +80,7 @@ public class Main {
         System.out.print("CPF: ");
         String cpf = sc.nextLine().trim();
 
-        System.out.println("Tipo (1 - Cidadão | 2 - Analista): ");
+        System.out.println("Tipo (1 - Cidadão): ");
         int tipoOp = Integer.parseInt(sc.nextLine());
         TipoUsuario tipo = (tipoOp == 2) ? TipoUsuario.ANALISTA : TipoUsuario.CIDADAO;
 
@@ -158,9 +158,6 @@ public class Main {
         System.out.print("Descrição: ");
         String descricao = sc.nextLine();
 
-        System.out.print("Categoria: ");
-        String categoria = sc.nextLine();
-
         System.out.print("Risco de vida (sim/nao): ");
         String riscoStr = sc.nextLine().toLowerCase();
         boolean risco = riscoStr.equals("sim");
@@ -170,7 +167,6 @@ public class Main {
                 estado,
                 cidade,
                 descricao,
-                categoria,
                 risco
         );
 

@@ -10,7 +10,6 @@ public class Solicitacoes {
     private String estado;
     private String cidade;
     private String descricao;
-    private String categoria;
     private boolean riscoVida;
 
     private Status statusAtual;
@@ -18,14 +17,13 @@ public class Solicitacoes {
 
     private List<HistoricoStatus> historico;
 
-    public Solicitacoes( Usuario usuario, String estado, String cidade, String descricao, String categoria, boolean riscoVida ) {
+    public Solicitacoes( Usuario usuario, String estado, String cidade, String descricao, boolean riscoVida ) {
 
         this.protocolo = estado.toUpperCase() + String.format("%06d", contador++);
         this.usuario   = usuario;
         this.estado    = estado;
         this.cidade    = cidade;
         this.descricao = descricao;
-        this.categoria = categoria;
         this.riscoVida = riscoVida;
         this.statusAtual = Status.ANALISE;
         this.dataAbertura = LocalDateTime.now();
@@ -52,10 +50,6 @@ public class Solicitacoes {
 
     public String getDescricao() {
         return descricao;
-    }
-
-    public String getCategoria() {
-        return categoria;
     }
 
     public boolean getRiscoVida() {
